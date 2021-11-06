@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_restful import Api, Resource
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -32,20 +31,11 @@ def get_viewership(game_name: str) -> int:
     return int(p.replace('Viewers', '').replace(',', '').strip())
 
 app = Flask(__name__)
-api = Api(app)
 
-class HelloWorld(Resource):
-    def get(self, game):
-        return {
-                "game": game, 
-                "viewers" : get_viewership(game)
-            }
-
-api.add_resource(HelloWorld, '/<str:game>')
-
-@app.route("/")
-def index():
+@app.route('/', mehtods=['GET'])
+def home():
     return 'index'
 
-if __name__ == "__main__":
-    app.run()
+@app.route('/<str:game>', mehtods=['GET'])
+def get_viewers(game):
+    return {"game": game, "viewers" : get_viewership(game)}
