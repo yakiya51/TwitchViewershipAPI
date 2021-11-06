@@ -36,6 +36,6 @@ app = Flask(__name__)
 def home():
     return 'index'
 
-@app.route('/viewership/<str:game>')
+@app.route('/viewership/game')
 def get_viewers(game):
     return {"game": game, "viewers" : get_viewership(game)}
