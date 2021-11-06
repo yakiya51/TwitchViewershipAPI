@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import os
+import urllib.parse
 
 BASE_URL = 'https://www.twitch.tv/directory/game/'
 
@@ -15,15 +16,17 @@ def get_viewership(game_name: str) -> int:
     options.add_argument("--disable-dev-shm-usage")
     options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
-    driver.get(BASE_URL + game_name)
+    
+    encoded_game_name = urllib.parse.quote(game_name)
+    driver.get(BASE_URL + encoded_game_name)
 
     try: 
         viewership = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, 'strong'))
         )
     except:
-        print("Failed to scrape viewership data.")
         driver.quit()
+        return f"ERROR: Failed to scrape viewership data."
 
     p = viewership.find_element_by_xpath('..').get_attribute('title')
     driver.quit()
