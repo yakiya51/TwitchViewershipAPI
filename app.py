@@ -32,10 +32,10 @@ def get_viewership(game_name: str) -> int:
 
 app = Flask(__name__)
 
-@app.route('/', mehtods=['GET'])
+@app.route('/')
 def home():
     return 'index'
 
-@app.route('/<str:game>', mehtods=['GET'])
+@app.route('/viewership/<str:game>')
 def get_viewers(game):
     return {"game": game, "viewers" : get_viewership(game)}
