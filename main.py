@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_restful import Api, Resource
-from scraper import get_viewership
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
