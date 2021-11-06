@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import os
 
-DRIVER_PATH = 'C:\Program Files (x86)\chromedriver.exe'
 BASE_URL = 'https://www.twitch.tv/directory/game/'
 
 def get_viewership(game_name: str) -> int:
@@ -36,6 +35,6 @@ app = Flask(__name__)
 def home():
     return 'index'
 
-@app.route('/viewership/game')
+@app.route('/viewership/<game>')
 def get_viewers(game):
     return {"game": game, "viewers" : get_viewership(game)}
